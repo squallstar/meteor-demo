@@ -1,0 +1,63 @@
+<head>
+  <title>fragments</title>
+</head>
+
+<body>
+  <div class="container">
+    {{> header}}
+
+    {{#if currentUser}}
+      <ul>
+        {{#each links}}
+          {{> link}}
+        {{/each}}
+      </ul>
+    {{/if}}
+  </div>
+</body>
+
+<template name="header">
+  <h1>Hello</h1>
+
+  {{#if currentUser}}
+    <h2>Welcome back {{currentUser.username}}. Todos left: {{incompleteCount}}</h2>
+
+    <label class="hide-completed">
+      <input type="checkbox" checked="{{hideCompleted}}" />
+      Hide Completed Tasks
+    </label>
+
+    <form class="new-link">
+      <input type="text" name="text" placeholder="Type to add new links" />
+    </form>
+  {{else}}
+    {{> loginButtons}}
+  {{/if}}
+</template>
+
+<template name="hello">
+  <button>Click Me</button>
+  <p>You've pressed the button {{counter}} times.</p>
+</template>
+
+<template name="link">
+  <li data-id="{{_id}}" class="{{#if checked}}checked{{/if}} {{#if private}}private{{/if}}">
+
+    {{#if isOwner}}
+      <button class="delete">&times;</button>
+      <input type="checkbox" checked="{{checked}}" class="toggle-checked" />
+    {{/if}}
+
+    {{#if isOwner}}
+      <button class="toggle-private">
+        {{#if private}}
+          Private
+        {{else}}
+          Public
+        {{/if}}
+      </button>
+    {{/if}}
+
+    <span class="text"><strong>{{username}}</strong> - {{text}}</span>
+  </li>
+</template>
